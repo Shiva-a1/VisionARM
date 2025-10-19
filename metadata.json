@@ -1,0 +1,15 @@
+{
+  "dataset_name": "visionarm_dataset",
+  "version": "v1.0",
+  "created_on": "2025-10-19",
+  "data_source": "ChatGPT-generated binary dataset + MediaPipe real-time encoded data",
+  "format": "CSV",
+  "num_features": 10,
+  "num_samples": 2000,
+  "target_labels": ["stop", "grab", "drop", "up", "down", "left", "right", "invalid"],
+  "quality_check": "Class balance verified, includes 600 invalid samples",
+  "field_mapping": {
+    "left_thumb": "Left hand thumb (1=raised, 0=closed)",
+    "right_index": "Right hand index finger (1=raised, 0=closed)"
+  }
+}
