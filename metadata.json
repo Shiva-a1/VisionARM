@@ -1,6 +1,6 @@
 {
-  "dataset_name": "visionarm_dataset",
-  "version": "v1.0",
+  "dataset_name": "visionarm_dataset_v01_01",
+  "version": "v01_01",
   "created_on": "2025-10-19",
   "data_source": "ChatGPT-generated binary dataset + MediaPipe real-time encoded data",
   "format": "CSV",
