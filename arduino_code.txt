@@ -1,0 +1,122 @@
+#include <Arduino.h>
+#include <Wire.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+#include <Servo.h>
+
+#define SCREEN_WIDTH 128
+#define SCREEN_HEIGHT 64
+
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
+
+// Servo objects
+Servo baseServo;      // Servo1: base rotation (left/right)
+Servo shoulderServo;  // Servo2: shoulder (forward/back)
+Servo elbowServo;     // Servo3: elbow (extend/retract)
+Servo wristServo;     // Servo4: wrist rotation (horizontal)
+Servo gripperServo;   // Servo5: claw
+
+// Servo positions
+int basePos = 90;
+int shoulderPos = 90;
+int elbowPos = 150;
+int wristPos = 180;
+int gripperPos = 60;
+
+String command = "";
+
+void setup() {
+  Serial.begin(9600);
+
+  // Attach servos
+  baseServo.attach(9);      
+  shoulderServo.attach(6);
+  elbowServo.attach(5);
+  wristServo.attach(3);
+  gripperServo.attach(11);
+
+  // Set initial positions
+  baseServo.write(basePos);
+  shoulderServo.write(shoulderPos);
+  elbowServo.write(elbowPos);
+  wristServo.write(wristPos);
+  gripperServo.write(gripperPos);
+
+  // Initialize OLED
+  if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
+    Serial.println("OLED init failed!");
+    while (1);
+  }
+
+  display.clearDisplay();
+  display.setTextSize(2);
+  display.setTextColor(WHITE);
+  display.setCursor(0, 0);
+  display.println("VisionARM is READY!");
+  display.display();
+}
+
+void loop() {
+  if (Serial.available()) {
+    command = Serial.readStringUntil('\n');
+    command.trim();
+
+    Serial.print("Received: ");
+    Serial.println(command);
+
+    // Display command on OLED
+    display.clearDisplay();
+    display.setTextSize(2);
+    display.setCursor(0, 0);
+    display.print(command);
+    display.display();
+
+    if (command == "left") { 
+      basePos = constrain(basePos - 5, 0, 180);
+      baseServo.write(basePos);
+    }
+    else if (command == "right") { 
+      basePos = constrain(basePos + 5, 0, 180);
+      baseServo.write(basePos);
+    }
+    else if (command == "up") {   
+      shoulderPos = constrain(shoulderPos + 5, 0, 180);
+      shoulderServo.write(shoulderPos);
+    }
+    else if (command == "down") {    
+      shoulderPos = constrain(shoulderPos - 5, 0, 180);
+      shoulderServo.write(shoulderPos);
+    }
+    else if (command == "extend") { 
+      elbowPos = constrain(elbowPos + 5, 60, 240);
+      elbowServo.write(elbowPos);
+    }
+    else if (command == "retract") {  
+      elbowPos = constrain(elbowPos - 5, 0, 180);
+      elbowServo.write(elbowPos);
+    }
+    else if (command == "wrist_left") { 
+      wristPos = constrain(wristPos - 5, 0, 360);
+      wristServo.write(wristPos);
+    }
+    else if (command == "wrist_right") { 
+      wristPos = constrain(wristPos + 5, 0, 270);
+      wristServo.write(wristPos);
+    }
+    else if (command == "grab") {    
+      gripperPos = constrain(gripperPos + 5, 0, 91);
+      gripperServo.write(gripperPos);
+    }
+    else if (command == "drop") {   
+      gripperPos = constrain(gripperPos - 5, 0, 91);
+      gripperServo.write(gripperPos);
+    }
+    else {
+      // Unknown command
+      display.clearDisplay();
+      display.setCursor(0, 0);
+      display.print("Invalid");
+      display.display();
+    }
+  }
+}

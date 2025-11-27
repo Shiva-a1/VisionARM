@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"name": "VisionARM",
+			"path": "../../../../PlatformIO/Projects/VisionARM"
+		}
+	],
+	"settings": {}
+}
