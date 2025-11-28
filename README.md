@@ -14,7 +14,7 @@ Key Achievement: 98.5% gesture classification accuracy with sub-20ms latency on 
 
 - [Features](#-features)
 - [System Architecture](#-system-architecture)
-- [Demo](#-demo)
+<!-- - [Demo](#-demo) -->
 - [Installation](#-installation)
 - [Quick Start](#-quick-start)
 - [Usage Guide](#-usage-guide)
@@ -104,5 +104,50 @@ Key Achievement: 98.5% gesture classification accuracy with sub-20ms latency on 
    │Monitoring │     │ Prediction │     │  Storage   │
    └──────────┘      └────────────┘     └────────────┘
 ```
+
+---
+## 🚀 Installation
+
+### Prerequisites
+
+- **Python**: 3.11 or higher
+- **Webcam**: Built-in or USB camera
+- **Operating System**: Windows, macOS, or Linux
+- **Arduino**: For hardware integration
+
+### Step 1: Clone the Repository
+
+```bash
+git clone https://github.com/Shiva-a1/VisionARM.git
+cd visionarm
+```
+
+### Step 2: Create Virtual Environment
+
+```bash
+# Using conda (recommended)
+conda create -n visionarm python=3.11
+conda activate visionarm
+
+# Or using venv
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
+
+### Step 3: Install Dependencies
+
+```bash
+# Core dependencies
+pip install mediapipe opencv-python numpy pandas
+pip install scikit-learn joblib
+
+# Web interface
+pip install gradio
+
+# Hardware communication
+pip install pyserial
+
+# Monitoring and visualization
+pip install prometheus-client psutil plotly
 
 ---
