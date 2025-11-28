@@ -149,5 +149,5 @@ pip install pyserial
 
 # Monitoring and visualization
 pip install prometheus-client psutil plotly
-
+```
 ---
