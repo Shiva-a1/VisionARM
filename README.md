@@ -74,9 +74,9 @@ Key Achievement: 98.5% gesture classification accuracy with sub-20ms latency on 
 ┌─────────────────────────────────────────────────────────────┐
 │                     VisionARM System                        │
 └─────────────────────────────────────────────────────────────┘
-                            │
-        ┌───────────────────┼───────────────────┐
-        │                   │                   │
+                           │
+        ┌──────────────────┼──────────────────┐
+        │                  │                  │
    ┌────▼─────┐      ┌─────▼──────┐     ┌─────▼──────┐
    │  Camera  │      │  Gradio    │     │  Arduino   │
    │  Input   │      │  Web UI    │     │  Hardware  │
@@ -87,21 +87,37 @@ Key Achievement: 98.5% gesture classification accuracy with sub-20ms latency on 
         │           │ Management  │           │
         │           └─────────────┘           │
         │                                     │
-   ┌────▼─────────────────────────────────────┴──────┐
-   │         Hand Gesture Processing Pipeline        │
-   ├─────────────────────────────────────────────────┤
-   │  1. MediaPipe Hand Detection                    │
-   │  2. Feature Extraction (10D Binary Vector)      │
-   │  3. SVM Classification (8 Gesture Classes)      │
-   │  4. Command Mapping & Transmission              │
-   └─────────────────────────────────────────────────┘
-                            │
-        ┌───────────────────┼───────────────────┐
-        │                   │                   │
-   ┌────▼─────┐      ┌─────▼──────┐     ┌─────▼──────┐
+   ┌────▼─────────────────────────────────────┴──────────┐
+   │           Hand Gesture Processing Pipeline          │
+   ├─────────────────────────────────────────────────────┤
+   │  1. MediaPipe Hand Detection                        │
+   │  2. Feature Extraction (10D Binary Vector Encoding) │
+   │  3. SVM Classification (8 Gesture Classes)          │
+   │  4. Command Mapping & Transmission                  │
+   └─────────────────────────────────────────────────────┘
+                           │
+        ┌──────────────────┼──────────────────┐
+        │                  │                  │
+   ┌────▼──────┐     ┌─────▼──────┐     ┌─────▼──────┐
    │Performance│     │  Gesture   │     │  Database  │
    │Monitoring │     │ Prediction │     │  Storage   │
-   └──────────┘      └────────────┘     └────────────┘
+   └───────────┘     └────────────┘     └────────────┘
+```
+VisionARM implements an end-to-end computer vision and machine learning pipeline for real-time hand gesture recognition and robotic arm control. The system achieves **98.5% accuracy** with **~20ms latency**, making it suitable for responsive real-time applications.
+
+### Model Layers
+
+```
+┌───────────────────────────────────────────────────────────────────┐
+│                    VisionARM System Stack                         │
+├───────────────────────────────────────────────────────────────────┤
+│  Layer 1: Input Processing     │  Webcam → OpenCV → MediaPipe     │
+│  Layer 2: Feature Extraction   │  Hand Landmarks → Binary Encoding│
+│  Layer 3: Classification       │  SVM (RBF Kernel)                │
+│  Layer 4: Command Translation  │  Gesture → Arduino Commands      │
+│  Layer 5: Monitoring           │  Prometheus Metrics              │
+│  Layer 6: User Interface       │  Gradio Web UI                   │
+└───────────────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -245,5 +261,160 @@ invalid  : 600 samples
 The dataset combines:
 1. **Synthetic Data**: Manually created binary patterns for gesture classes
 2. **Real Data**: MediaPipe-encoded hand landmark data from real-time captures
+
+---
+
+## 🔌 Hardware Integration
+
+### Arduino Setup
+
+#### Hardware Requirements
+- Arduino Uno/Mega/Nano
+- Servo motors (typically 4-6 for robotic arm)
+- Power supply (5V/12V depending on servos)
+- USB cable for serial communication
+
+#### Arduino Code:
+- Copy paste the Arduino code present in ```arduino.txt``` to ```main.cpp``` file in ```src``` folder present in Arduino project we created in PlatformIO extension in VS Code.
+- Download all the required libraries and edit the port serial numbers for each servo-motor based on your hardware device.
+- Once done press the ✅ button at the bottom left and press the ➡️ next to it. This will over write the Arduino code in the Arduino board's memory.
+
+### Serial Communication
+
+#### Python Configuration
+
+```python
+import serial
+import time
+
+arduino = serial.Serial('/dev/tty.usbserial-10', 9600)  # Change based on your system
+time.sleep(2) 
+
+def send_label(label):
+    message = label + '\n'
+    arduino.write(message.encode())
+    print(label)
+```
+
+#### Port Detection
+
+**Windows**: COM3, COM4, etc.
+**macOS**: /dev/tty.usbserial-*
+**Linux**: /dev/ttyUSB0, /dev/ttyACM0
+
+---
+
+## 📈 Performance Monitoring
+
+### Metrics Tracked
+
+#### System Metrics
+- **FPS (Frames Per Second)**: Real-time frame processing rate
+- **Latency**: Average processing time per frame
+- **CPU Usage**: Percentage of CPU utilization
+- **Memory Usage**: RAM consumption
+
+#### Application Metrics
+- **Total Frames Processed**: Cumulative frame count
+- **Gesture Distribution**: Count of each gesture detected
+- **Session Duration**: Active detection time
+
+### Prometheus Integration
+
+The system exposes metrics on port 8000:
+
+```bash
+# Access metrics endpoint
+curl http://localhost:8000
+```
+
+**Available Metrics**:
+- `gesture_predictions_total`: Counter for each gesture type
+- `prediction_latency_seconds`: Histogram of processing times
+- `cpu_usage_percent`: Current CPU usage
+- `memory_usage_percent`: Current memory usage
+
+### Visualization
+
+Real-time plots include:
+- **FPS Over Time**: Line graph of frame rate
+- **Latency Distribution**: Histogram of processing times
+- **Resource Usage**: CPU and Memory usage over time
+- **Gesture Frequency**: Bar chart of detected gestures
+
+---
+
+## 🛠️ Technologies Used
+
+### Computer Vision & ML
+- **MediaPipe** (v0.10.0+): Hand landmark detection and tracking
+- **OpenCV** (v4.8.0+): Image processing and video capture
+- **scikit-learn** (v1.3.0+): SVM classifier and model evaluation
+- **NumPy** (v1.24.0+): Numerical computations
+- **Pandas** (v2.0.0+): Data manipulation and analysis
+
+### Web Interface
+- **Gradio** (v4.0.0+): Interactive web UI framework
+- **Plotly** (v5.17.0+): Interactive visualizations
+
+### System & Monitoring
+- **Prometheus Client**: Metrics collection and exposure
+- **psutil**: System resource monitoring
+- **Threading**: Concurrent processing
+
+### Hardware Communication
+- **PySerial** (v3.5+): Arduino serial communication
+
+### Security
+- **hashlib**: Password hashing (SHA-256)
+
+---
+
+## 🔮 Future Enhancements
+
+### Planned Features
+
+- [ ] **Drift Detection**: Drift detection using NannyML.
+- [ ] **Enhanced Gesture Set**: Support for 20+ gestures including custom gestures
+- [ ] **Multi-Hand Tracking**: Independent control with two hands
+- [ ] **Mobile App**: Native iOS/Android applications
+- [ ] **Gesture Recording**: Save and replay gesture sequences
+- [ ] **Cloud Integration**: Remote control and monitoring
+- [ ] **Gesture Customization**: User-defined gesture mapping
+- [ ] **Multi-User Support**: Collaborative control modes
+
+### Research Directions
+
+- **Adaptive Learning**: Online learning from user corrections
+- **Context-Aware Recognition**: Environment and task-specific gestures
+- **Robustness Improvements**: Better performance in varied lighting
+- **Latency Optimization**: Sub-10ms processing pipeline
+- **Energy Efficiency**: Optimizations for embedded systems
+
+---
+
+## 🤝 Acknowledgments
+
+### Frameworks
+- **Google MediaPipe Team**: For the excellent hand tracking solution
+
+### University Support
+- **University of Florida**: For project support and resources
+
+### Inspiration
+This project was inspired by the growing need for intuitive human-robot interaction systems and the potential of computer vision in creating accessible control interfaces.
+
+### Special Thanks
+- **Professor Andrea Ramirez Salgado** for her support in providing all the required hardware resources, her valuable guidance and feedback.
+
+---
+
+## 📞 Contact
+
+### Project Author
+
+**VisionARM Developer**
+- 📧 Email: shivansh.ade@ufl.edu
+- 🌐 Website: [visionarm-project.github.io](https://github.com/Shiva-a1/VisionARM)
 
 ---
