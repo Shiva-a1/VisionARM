@@ -13,14 +13,14 @@ Key Achievement: 98.5% gesture classification accuracy with sub-20ms latency on 
 ## 📋 Table of Contents
 
 - [Features](#-features)
-- [System Architecture](#-system-architecture)
+- [System Architecture](#️-system-architecture)
 - [Installation](#-installation)
 - [Project Structure](#-project-structure)
-- [Quick Set up and Usage Guide](#-quick-set-up-and-usage-guide)
+- [Quick Set up and Usage Guide](#quick-set-up-and-usage-guide)
 - [Dataset](#-dataset)
 - [Hardware Integration](#-hardware-integration)
 - [Performance Monitoring](#-performance-monitoring)
-- [Technologies Used](#-technologies-used)
+- [Technologies Used](#️-technologies-used)
 - [Future Enhancements](#-future-enhancements)
 - [Acknowledgments](#-acknowledgments)
 - [Contact](#-contact)
