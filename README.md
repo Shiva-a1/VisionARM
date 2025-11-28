@@ -196,3 +196,54 @@ visionarm/
 
 6. **Accessing the User Interface**
 - Register/Login to access the system and then press `Start Detection' button. Then your system's camera would turn on, where you will perform hand gestures, based on which the Arduino system would perform operations, and metrics plots on the UI would keep on updating.
+
+---
+
+## 📊 Dataset
+
+### Dataset Overview
+
+- **Name**: `visionarm_dataset_v01_01.csv`
+- **Version**: v01_01
+- **Creation Date**: October 19, 2025
+- **Total Samples**: 2,000
+- **Features**: 10 (binary finger states)
+- **Classes**: 8 gesture types
+
+### Feature Description
+
+Each sample contains 10 binary features representing finger states:
+
+| Feature | Description |
+|---------|-------------|
+| `left_thumb` | Left hand thumb (1=raised, 0=closed) |
+| `left_index` | Left hand index finger |
+| `left_middle` | Left hand middle finger |
+| `left_ring` | Left hand ring finger |
+| `left_pinky` | Left hand pinky finger |
+| `right_thumb` | Right hand thumb |
+| `right_index` | Right hand index finger |
+| `right_middle` | Right hand middle finger |
+| `right_ring` | Right hand ring finger |
+| `right_pinky` | Right hand pinky finger |
+
+### Class Distribution
+
+```
+stop     : 200 samples
+grab     : 200 samples
+drop     : 200 samples
+up       : 200 samples
+down     : 200 samples
+left     : 200 samples
+right    : 200 samples
+invalid  : 600 samples
+```
+
+### Data Sources
+
+The dataset combines:
+1. **Synthetic Data**: Manually created binary patterns for gesture classes
+2. **Real Data**: MediaPipe-encoded hand landmark data from real-time captures
+
+---
