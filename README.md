@@ -14,7 +14,6 @@ Key Achievement: 98.5% gesture classification accuracy with sub-20ms latency on 
 
 - [Features](#-features)
 - [System Architecture](#-system-architecture)
-<!-- - [Demo](#-demo) -->
 - [Installation](#-installation)
 - [Quick Start](#-quick-start)
 - [Usage Guide](#-usage-guide)
@@ -151,3 +150,49 @@ pip install pyserial
 pip install prometheus-client psutil plotly
 ```
 ---
+
+## 📁 Project Structure
+
+```
+visionarm/
+│
+├── main.ipynb                          # Main application notebook
+├── Classifcation_Model_Training.ipynb  # Model training pipeline
+├── user_manager.py                     # User authentication system
+├── README.md                           # Project documentation
+├── VisionARM.code-workspace            # VS Code workspace
+├── metadata.json                       # Dataset metadata
+│
+├── Data/
+│   ├── visionarm_dataset_v01_01.csv   # Training dataset
+│   └──users_database.csv             # User credentials
+│
+├── SVM_Models/
+│   └── best_label_classification_model.pkl         # Trained SVM model
+│
+├──trial.ipynb                       # trial notebook for rough work
+└── arduino_code.txt                 # Text file containing Arduino code
+```
+---
+## Quick Set up and Usage Guide
+1. **Clone the Repository**
+- Clone the VisionARM repository from the link provided above.
+
+2. **Open the project Folder**
+- Open the Project Folder in you local IDE (VS Code Prefered).
+
+3. **Install Arduino Extension**
+- Install the PlatformIO Extension in VSCode. One installed created a new project and then navigate to ```main.cpp``` file present inside ```src``` folder. 
+- From our ```VisionARM``` folder, go to ```arduino_code.txt``` and copy the Arduino code from there and paste it in ```main.cpp``` file of the Arduino project folder. Once done, do make sure that you Arduino Hardware is properly connected to the local system (laptop), and all the port labels in the Arduino code matches correctly with you Arduino board. 
+- Once done press the ✅ button at the bottom left and press the ➡️ next to it. This will over write the Arduino code in the Arduino board's memory.
+
+4. **Integrating Arduino with VisionARM project**
+- Navigate to ```main.ipynb``` file inside our ```VisionARM``` project folder and go to ```8. Arduino Serial Communication``` section and edit the Serial Port value to the one you are using to connect Arduino Hardware to your local device.
+
+5. **Launch the AI System**
+- Navigate to ```user_manager.py``` file and run it.
+- If it runs successfully, then navigate to ```main.ipynb``` file and run all the cells.
+- If every cell runs without any error, directly navigate to the last cell, which displays our system's UI.
+
+6. **Accessing the User Interface**
+- Register/Login to access the system and then press `Start Detection' button. Then your system's camera would turn on, where you will perform hand gestures, based on which the Arduino system would perform operations, and metrics plots on the UI would keep on updating.
