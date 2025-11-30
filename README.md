@@ -13,6 +13,7 @@ Key Achievement: 98.5% gesture classification accuracy with sub-20ms latency on 
 ## 📋 Table of Contents
 
 - [Features](#-features)
+- [Demo](#-demo)
 - [System Architecture](#️-system-architecture)
 - [Installation](#-installation)
 - [Project Structure](#-project-structure)
@@ -61,6 +62,11 @@ Key Achievement: 98.5% gesture classification accuracy with sub-20ms latency on 
 - System status indicators
 - Interactive performance dashboards
 - User feedback system
+
+---
+
+## Demo
+[![Watch Live Demo of VisionARM]](./VisionARM_Demo.mov)
 
 ---
 
