@@ -67,7 +67,9 @@ Key Achievement: 98.5% gesture classification accuracy with sub-20ms latency on 
 
 ## Demo
 
-[![Watch the live demo by clicking on this link]](./Project_UI_Demo_Video.gif)
+<p align="center">
+  <img src="./Project_UI_Demo_Video.gif" width="1500">
+</p>
 
 ---
 
